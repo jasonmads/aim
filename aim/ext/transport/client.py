@@ -27,7 +27,7 @@ DEFAULT_RETRY_INTERVAL = 0.1  # 100 ms
 DEFAULT_RETRY_COUNT = 2
 
 logger = logging.getLogger(__name__)
-
+logger.setLevel(logging.INFO)
 
 class Client:
     _thread_local = threading.local()
@@ -274,15 +274,19 @@ class Client:
         del self._thread_local.atomic_instructions[hash_]
 
     def refresh_ws(self):
+        ws_logger = logging.getLogger("websockets.client")
+        ws_logger.setLevel(logging.INFO)
         self._ws = connect(f'{self._ws_protocol}{self._tracking_endpoint}/{self.uri}/write-instruction/',
-                           max_size=None)
+                           max_size=None, logger=ws_logger)
 
     @property
     def ws(self):
         if self._ws is None:
+            ws_logger = logging.getLogger("websockets.client")
+            ws_logger.setLevel(logging.INFO)
             self._ws = connect(f'{self._ws_protocol}{self._tracking_endpoint}/{self.uri}/write-instruction/',
                                additional_headers=self.request_headers,
-                               max_size=None)
+                               max_size=None, logger=ws_logger)
 
         return self._ws
 
