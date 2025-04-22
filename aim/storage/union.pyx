@@ -53,7 +53,7 @@ class ItemsIterator(ContainerItemsIterator):
         for prefix, iterator in self._iterators.items():
             try:
                 iterator.seek_to_first()
-            except (aimrocks.errorsRocksIOError, aimrocks.errors.Corruption):
+            except (aimrocks.errors.RocksIOError, aimrocks.errors.Corruption):
                 logger.debug(f'Detected corrupted db chunk \'{prefix}\'.')
                 corrupted_dbs.add(prefix)
         self._corrupted_dbs.update(corrupted_dbs)
@@ -229,11 +229,14 @@ class DB(object):
             # delete index db and mark as corrupted
             corruption_marker = Path(index_path) / '.corrupted'
             if not corruption_marker.exists():
-                logger.warning('Corrupted index db. Deleting the index db to avoid errors. '
-                               'Please run `aim storage reindex command to restore optimal performance.`')
-                shutil.rmtree(index_path)
-                Path(index_path).mkdir()
-                corruption_marker.touch()
+                # discard the case when index db does not exist
+                rocks_current_path = Path(index_path) / 'CURRENT'
+                if rocks_current_path.exists():
+                    logger.warning('Corrupted index db. Deleting the index db to avoid errors. '
+                                   'Please run `aim storage reindex command to restore optimal performance.`')
+                    shutil.rmtree(index_path)
+                    Path(index_path).mkdir()
+                    corruption_marker.touch()
             index_db = None
         except Exception:
             index_db = None

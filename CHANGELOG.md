@@ -1,5 +1,82 @@
 # Changelog
 
+## Unreleased:
+
+### Fixes:
+- Fix min/max calculation for single point metrics (mihran113)
+
+## 3.28.0 Mar 21, 2025
+
+### Enhancements:
+- Skip metrics check when run is known to yield false result (alberttorosyan)
+- Remove metric version check to improve performance of metric retrieval (mihran113)
+- Move indexing thread to main process of `aim up` (alberttorosyan)
+- Add AimCallback implementation for hugging face distributed runs (VassilisVassiliadis)
+- Add py.typed marker to allow usage of existing type annotations (bluenote10)
+
+
+### Fixes:
+- Decrease client resources keep-alive time (mihran113)
+- Fix connection of data points on epoch alignment (mihran113)
+- Resolve issue with adding duplicate tags to the same run (mihran113)
+- Improve error messages for remote tracking server (mihran113)
+- Fix spurious assertion error in message stream parsing (qzed)
+- Correct indentation on query proxy object return statement (alberttorosyan)
+- Fix typing issues in S3ArtifactStorage implementation (sbatchelder)
+
+
+## 3.27.0 Dec 18, 2024
+
+### Enhancements:
+- Enable custom boto3 client parameters for `S3ArtifactStorage` (sbatchelder)
+- Return `None` for `run.artifact_uri` if not set (sbatchelder)
+- Enable custom contexts for `PytorchLightning` logger (sbatchelder)
+
+### Fixes:
+- Fix aggregated metrics' computations (mihran113)
+- Fix bug in RunStatusReporter raising non-deterministic RuntimeError exception (VassilisVassiliadis)
+- Fix tag addition issue from parallel runs (mihran113)
+- Handle `StopIteration` exception in iter_sequence_info_by_type method (alberttorosyan)
+
+## 3.26.1 Dec 3, 2024
+- Re-upload after PyPI size limitation fix
+
+## 3.26.0 Dec 3, 2024
+
+### Enhancements:
+- Improved performance of metric queries by sequence metadata separation (alberttorosyan)
+- Add statistics dump script for basic troubleshooting (alberttorosyan)
+
+## 3.25.1 Nov 6, 2024
+- Fix corruption marking on empty index db (mihran113)
+
+## 3.25.0 Oct 2, 2024
+
+### Enhancements:
+- Add ability to create reports (mihran113)
+- Add support for self-signed SSL certificates (mihran113)
+
+
+## 3.24.0 Aug 14, 2024
+
+### Enhancements:
+- Add read-only mode for Aim UI (mihran113)
+- Support of mass updates in remote tracking (peter-sk)
+
+### Fixes:
+- Fix bug in bookmark page where it was not scrollable if there was too many bookmarks (vinayan3)
+- Fix exception name in `storage/union.pyx` (sulan)
+
+## 3.23.0 Jul 15, 2024
+
+### Enhancements:
+- Relax `numpy` version upper bound to include `numpy<3` (judahrand)
+- Add a `-s`/`--skip-if-exists` option to the `init` command to avoid reinitializing a repo if one already exists (stevenjlm)
+
+### Fixes:
+- Fix SB3 callback metric tracking (mihran113)
+- Prevent long waiting times when connecting to incorrect or unresponsive addresses (xuzhiy)
+
 ## 3.22.0 Jun 20, 2024
 
 ### Enhancements:
@@ -21,7 +98,7 @@
 - Repurpose aim reindex command for index db recreation (mihran113)
 
 ### Fixes
-- Handle index db corruption and warn in UI (mihran113) 
+- Handle index db corruption and warn in UI (mihran113)
 - Handle and skip corrupted runs (alberttorosyan)
 
 ## 3.19.3 Apr 17, 2024
@@ -42,7 +119,7 @@
 - Remove `aim storage upgrade 2to3` command (mihran113)
 - Allow HF callback to initialize run at on_init_end for tracking custom metrics with callback (dushyantbehl)
 - Support artifacts logging and storage in AWS S3 (alberttorosyan)
-- Always set run name when initializing Run in lightning callback (martenlienen) 
+- Always set run name when initializing Run in lightning callback (martenlienen)
 
 ### Fixes
 - Allow the web UI to serve assets symlinked into the static files directory (martenlienen)
